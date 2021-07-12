@@ -1,26 +1,26 @@
 const models = require("../models");
 function save(req, res) {
-  const gallery = {
-    imageUrl: req.body.imageUrl,
+  const data = {
+    imageUrl: req.file.path,
   };
-
-  models.Gallery.create(gallery)
-    .then((result) => {
+  console.log("file path at image controller", req.path);
+  if (req.file.filename) {
+    models.Gallery.create(data).then((result) => {
       res.status(201).json({
-        message: "Gallery created successfully",
-        Gallery: result,
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Something went wrong",
-        Gallery: error,
+        message: "Image uploaded successfully",
+        url: result,
       });
     });
+  } else {
+    res.status(500).json({
+      message: "Something went wrong!",
+    });
+  }
 }
 
 function show(req, res) {
   //show object by id
+
   const id = req.params.id;
   models.Gallery.findByPk(id)
     .then((result) => {
@@ -62,12 +62,12 @@ function update(req, res) {
   models.Gallery.update(updatedGallery, { where: { id: id } })
     .then((result) => {
       res.status(200).json({
-        message: "Post updated successfully",
+        message: "Gallery updated successfully",
       });
     })
     .catch((error) => {
       res.status(500).json({
-        message: "something went wrong, can't update",
+        message: "Gallery went wrong, can't update",
         error: error,
       });
     });
@@ -83,7 +83,7 @@ function destroy(req, res) {
   })
     .then((result) => {
       res.status(200).json({
-        message: "Post Deleted successfully",
+        message: "Image Deleted successfully",
       });
     })
     .catch((error) => {

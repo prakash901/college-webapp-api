@@ -1,12 +1,19 @@
 const express = require("express");
-const blogController = require("../controllers/blog.controller");
-
+const galleryController = require("../controllers/gallery.controller");
+const imageUploader = require("../helpers/image-uploader");
 const router = express.Router();
 
-router.post("/", blogController.save);
-router.get("/", blogController.index);
-router.get("/:id", blogController.show);
-router.patch("/:id", blogController.update);
-router.delete("/:id", blogController.destroy);
+router.post(
+  "/upload",
+  imageUploader.upload.single("image"),
+
+  galleryController.save
+);
+
+router.get("/", galleryController.index);
+router.get("/:id", galleryController.show);
+
+router.patch("/:id", galleryController.update);
+router.delete("/:id", galleryController.destroy);
 
 module.exports = router;
