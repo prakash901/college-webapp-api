@@ -56,7 +56,7 @@ function update(req, res) {
   const id = req.params.id;
   console.log("req.params.id", id);
   const updatedGallery = {
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.file.path,
   };
 
   models.Gallery.update(updatedGallery, { where: { id: id } })

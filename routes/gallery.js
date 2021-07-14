@@ -8,14 +8,18 @@ router.post(
   "/upload",
   checkAuthMiddleware.checkAuth,
   imageUploader.upload.single("image"),
-
   galleryController.save
 );
 
 router.get("/", galleryController.index);
 router.get("/:id", galleryController.show);
 
-// router.patch("/:id", checkAuthMiddleware.checkAuth, galleryController.update);
+router.patch(
+  "/:id",
+  checkAuthMiddleware.checkAuth,
+  imageUploader.upload.single("image"),
+  galleryController.update
+);
 router.delete("/:id", checkAuthMiddleware.checkAuth, galleryController.destroy);
 
 module.exports = router;

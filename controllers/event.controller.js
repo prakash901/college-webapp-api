@@ -1,10 +1,12 @@
 const models = require("../models");
 function save(req, res) {
+  console.log("file path at image controller", req.file.path);
+
   const event = {
     title: req.body.title,
     datetime: req.body.datetime,
     description: req.body.description,
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.file.path,
   };
 
   models.Event.create(event)
@@ -60,26 +62,9 @@ function update(req, res) {
   console.log("req.params.id", id);
   const updatedEvent = {
     title: req.body.title,
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.file.path,
     content: req.body.content,
   };
-  // const userId = req.userData.user;
-
-  // const schema = {
-  //   title: { type: "string", optional: false, max: "100" },
-  //   content: { type: "string", optional: false, max: "500" },
-  //   categoryId: { type: "number", optional: false },
-  // };
-
-  // const v = new Validator();
-  // const validationResponse = v.validate(updatedPost, schema);
-
-  // if (validationResponse !== true) {
-  //   return res.status(400).json({
-  //     message: "validation failed",
-  //     errors: validationResponse,
-  //   });
-  // }
 
   models.Event.update(updatedEvent, { where: { id: id } })
     .then((result) => {

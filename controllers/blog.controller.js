@@ -4,7 +4,7 @@ const models = require("../models");
 function save(req, res) {
   const blog = {
     title: req.body.title,
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.file.path,
     content: req.body.content,
   };
 
@@ -48,7 +48,7 @@ function show(req, res) {
         res.status(200).json(result);
       } else {
         res.status(404).json({
-          message: "Post not found!",
+          message: "Blog not found!",
         });
       }
     })
@@ -60,7 +60,7 @@ function show(req, res) {
 }
 
 function index(req, res) {
-  //show all available posts
+  //show all available Blogs
   models.Blog.findAll()
     .then((result) => {
       res.status(200).json(result);
@@ -77,14 +77,14 @@ function update(req, res) {
   console.log("req.params.id", id);
   const updatedBlog = {
     title: req.body.title,
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.file.path,
     content: req.body.content,
   };
 
   const schema = {
     title: { type: "string", optional: false, max: "100" },
     imageUrl: { type: "string", optional: false, max: "100" },
-    content: { type: "number", optional: false, max: "500" },
+    content: { type: "string", optional: false, max: "500" },
   };
 
   const v = new Validator();
@@ -100,7 +100,7 @@ function update(req, res) {
   models.Blog.update(updatedBlog, { where: { id: id } })
     .then((result) => {
       res.status(200).json({
-        message: "Post updated successfully",
+        message: "Blog updated successfully",
       });
     })
     .catch((error) => {
@@ -121,7 +121,7 @@ function destroy(req, res) {
   })
     .then((result) => {
       res.status(200).json({
-        message: "Post Deleted successfully",
+        message: "Blog Deleted successfully",
       });
     })
     .catch((error) => {
