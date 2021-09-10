@@ -22,6 +22,7 @@ function save(req, res) {
 
 function show(req, res) {
   //show object by id
+
   const id = req.params.id;
   models.Notice.findByPk(id)
     .then((result) => {
