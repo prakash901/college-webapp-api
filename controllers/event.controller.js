@@ -13,13 +13,13 @@ function save(req, res) {
     .then((result) => {
       res.status(201).json({
         message: "Event created successfully",
-        blog: result,
+        event: result,
       });
     })
     .catch((error) => {
       res.status(500).json({
         message: "Something went wrong",
-        blog: error,
+        event: error,
       });
     });
 }
